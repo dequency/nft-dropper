@@ -1,18 +1,28 @@
 import React from 'react';
-import {config, getAirdropTxns, sendWait} from './lib/algorand'
+import {config, getAirdropTxns, sendWait, countRemaining} from './lib/algorand'
 import WalletSession from "./lib/wallet_session"
-import {Button} from "@blueprintjs/core"
+import {Card, Button, Elevation} from "@blueprintjs/core"
 
 
 function App() {
   const [loading, setLoading] = React.useState(false)
   const [wallet, setWallet] = React.useState(new WalletSession(config.algod.network))
+  const [remaining, setRemaining] = React.useState(0)
+
+
+  const asset_id = parseInt(window.location.pathname.split("/")[1])
 
 
   React.useEffect(()=>{
     if(wallet.isConnected()) return;
     wallet.connect(()=>{})
   }, [wallet])
+
+  React.useEffect(()=>{
+    countRemaining(asset_id).then((cnt:number)=>{
+      setRemaining(cnt)
+    })
+  }, [loading])
 
   async function triggerDrop(asset_id: number){
     if(!wallet.isConnected()) {
@@ -29,7 +39,7 @@ function App() {
 
   const buttons = []
   for(const aidx of config.assets){
-    buttons.push(<Button 
+    if(asset_id === aidx) buttons.push(<Button 
       intent='success'
       onClick={()=>{triggerDrop(aidx)}}
       key={'asset-'+aidx.toString()} 
@@ -37,14 +47,22 @@ function App() {
       loading={loading}
     />)
   }
+  
 
   return (
     <div className="container">
       <div className='content'>
+        <Card elevation={Elevation.TWO}>
+          <h3>{remaining} Left</h3> 
+        </Card>
         {buttons}
+      </div>
+      <div hidden={true}>
       </div>
     </div>
   );
+
+    //<audio src='https://github.com/anars/blank-audio/blob/master/30-seconds-of-silence.mp3?raw=true' ></audio>
 }
 
 export default App;

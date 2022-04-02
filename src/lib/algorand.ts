@@ -32,6 +32,12 @@ function getMethodByName(name: string): algosdk.ABIMethod  {
 
 const client = new algosdk.Algodv2(config.algod.token, config.algod.host, config.algod.port)
 
+export async function countRemaining(asset_id: number): Promise<number> {
+    const app_addr = algosdk.getApplicationAddress(config.appId)
+    const ainfo = await client.accountAssetInformation(app_addr, asset_id).do()
+    return ainfo['asset-holding']['amount']
+}
+
 export async function sendWait(stxns: Uint8Array[]): Promise<any> {
     const {txId} = await client.sendRawTransaction(stxns).do()
     const result = await algosdk.waitForConfirmation(client, txId, 2)
