@@ -9,9 +9,7 @@ function App() {
   const [wallet, setWallet] = React.useState(new WalletSession(config.algod.network))
   const [remaining, setRemaining] = React.useState(0)
 
-
   const asset_id = parseInt(window.location.pathname.split("/")[1])
-
 
   React.useEffect(()=>{
     if(wallet.isConnected()) return;
@@ -23,6 +21,19 @@ function App() {
       setRemaining(cnt)
     })
   }, [loading])
+
+
+  if(isNaN(asset_id) || asset_id === undefined){
+    const links = []
+    for(const aidx of config.assets){
+        links.push(<a key={aidx} href={'/'+aidx.toString()}>{aidx}</a>)
+    }
+    return (
+      <div className='container'>
+        {links}
+      </div>
+    )
+  }
 
   async function triggerDrop(asset_id: number){
     if(!wallet.isConnected()) {
@@ -39,13 +50,7 @@ function App() {
 
   const buttons = []
   for(const aidx of config.assets){
-    if(asset_id === aidx) buttons.push(<Button 
-      intent='success'
-      onClick={()=>{triggerDrop(aidx)}}
-      key={'asset-'+aidx.toString()} 
-      text={'Drop ' + aidx.toString()} 
-      loading={loading}
-    />)
+    if(asset_id === aidx) buttons.push()
   }
   
 
@@ -54,11 +59,16 @@ function App() {
       <div className='content'>
         <Card elevation={Elevation.TWO}>
           <h3>{remaining} Left</h3> 
+          <Button 
+              intent='success'
+              onClick={()=>{triggerDrop(asset_id)}}
+              key={'asset-'+asset_id.toString()} 
+              text={'Drop ' + asset_id.toString()} 
+              loading={loading}
+            />
         </Card>
-        {buttons}
       </div>
-      <div hidden={true}>
-      </div>
+      <div hidden={true}> </div>
     </div>
   );
 
