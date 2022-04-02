@@ -1,0 +1,16 @@
+{
+    "name":"",
+    "description":"",
+    "methods":[
+        {
+            "name":"drop",
+            "args":[{"type":"asset", "name":"asset"}],
+            "returns":{"type":"void"}
+        },
+        {
+            "name":"optin",
+            "args":[{"type":"asset", "name":"asset"}],
+            "returns":{"type":"void"}
+        }
+    ]
+}
