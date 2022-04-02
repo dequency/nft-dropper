@@ -1,7 +1,8 @@
 import React from 'react';
 import { config, getAirdropTxns, sendWait, countRemaining } from './lib/algorand'
 import WalletSession from "./lib/wallet_session"
-import { Card, Button, Elevation } from "@blueprintjs/core"
+import { AnchorButton, Dialog, Card, Button, Elevation, Classes } from "@blueprintjs/core"
+import { BrowserView, MobileView, isIOS, isMobileSafari } from 'react-device-detect'
 
 
 function App() {
@@ -12,7 +13,7 @@ function App() {
   const [asset_id, setAssetId] = React.useState<number>(0)
   const audio_ref = React.useRef<HTMLAudioElement>(document.getElementById('hack') as HTMLAudioElement);
 
-  React.useEffect(()=>{
+  React.useEffect(() => {
     setConnected(wallet.isConnected())
   }, [wallet])
 
@@ -26,7 +27,6 @@ function App() {
     countRemaining(aid).then((cnt: number) => {
       setRemaining(cnt)
     })
-
   }, [loading, asset_id, hash])
 
 
@@ -64,9 +64,9 @@ function App() {
 
   async function connect() {
     audio_ref.current?.play()
-    wallet.connect(() => { 
+    wallet.connect(() => {
       setConnected(true)
-      audio_ref.current?.pause() 
+      audio_ref.current?.pause()
     })
   }
 
@@ -89,9 +89,36 @@ function App() {
         {content}
       </div>
       <audio hidden id='hack' ref={audio_ref} src='https://github.com/anars/blank-audio/blob/master/30-seconds-of-silence.mp3?raw=true' ></audio>
+      <PromptAppNav isOpen={loading} />
     </div>
   );
+}
 
+interface PromptAppNavProps {
+  isOpen: boolean
+}
+function PromptAppNav(props: PromptAppNavProps) {
+  return (
+    <Dialog {...props} >
+      <div className={Classes.DIALOG_BODY}>
+        <div className='container'>
+          <p>Open the Pera Wallet to approve the transaction and come back</p>
+          <MobileView >
+            <AnchorButton
+              style={{ borderRadius: '8px', margin: '20px 0px -30px' }}
+              text='Take me there'
+              href={isIOS ? "algorand-wc://wc?uri=wc:00e46b69-d0cc-4b3e-b6a2-cee442f97188@1" : "wc:00e46b69-d0cc-4b3e-b6a2-cee442f97188@1"}
+              intent="success"
+              large={true}
+              minimal={true}
+              outlined={true}
+              rightIcon="double-chevron-right"
+            />
+          </MobileView>
+        </div>
+      </div>
+    </Dialog>
+  )
 }
 
 export default App;
