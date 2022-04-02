@@ -8,26 +8,31 @@ function App() {
   const [loading, setLoading] = React.useState(false)
   const [wallet, setWallet] = React.useState(new WalletSession(config.algod.network))
   const [remaining, setRemaining] = React.useState(0)
-
-  const asset_id = parseInt(window.location.pathname.split("/")[1])
+  const [asset_id, setAssetId] = React.useState<number>(0)
 
   React.useEffect(()=>{
     if(wallet.isConnected()) return;
     wallet.connect(()=>{})
   }, [wallet])
 
+  const hash = window.location.hash
   React.useEffect(()=>{
-    countRemaining(asset_id).then((cnt:number)=>{
+    const aid = hash === ""?0:parseInt(hash.split("#")[1]);
+    if(aid===0) return;
+
+    setAssetId(aid);
+    countRemaining(aid).then((cnt:number)=>{
       setRemaining(cnt)
     })
-  }, [loading])
+
+  }, [loading, asset_id, hash])
 
 
   // If no asset id in path, just dump links
-  if(isNaN(asset_id) || asset_id === undefined){
+  if(asset_id === 0 || isNaN(asset_id)){
     const links = []
     for(const aidx of config.assets){
-        links.push(<a key={aidx} href={'/'+aidx.toString()}>{aidx}</a>)
+        links.push(<a key={aidx} href={'#'+aidx.toString()}>{aidx}</a>)
     }
     return (
       <div className='container'>
