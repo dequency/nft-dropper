@@ -18,7 +18,7 @@ function App() {
   const hash = window.location.hash
   React.useEffect(()=>{
     const aid = hash === ""?0:parseInt(hash.split("#")[1]);
-    if(aid===0) return;
+    if(aid===0||isNaN(aid)) return;
 
     setAssetId(aid);
     countRemaining(aid).then((cnt:number)=>{
