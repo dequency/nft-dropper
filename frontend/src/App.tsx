@@ -2,7 +2,7 @@ import React from 'react';
 import { config, getAirdropTxns, sendWait, countRemaining } from './lib/algorand'
 import WalletSession from "./lib/wallet_session"
 import { AnchorButton, Dialog, Card, Button, Elevation, Classes } from "@blueprintjs/core"
-import { BrowserView, MobileView, isIOS, isMobileSafari } from 'react-device-detect'
+import { MobileView, isIOS } from 'react-device-detect'
 
 
 function App() {
@@ -11,28 +11,28 @@ function App() {
   const [connected, setConnected] = React.useState(false)
   const [remaining, setRemaining] = React.useState(0)
   const [asset_id, setAssetId] = React.useState<number>(0)
+
+  // This is the hack that makes iOS not kill our websocket with WalletConnect
   const audio_ref = React.useRef<HTMLAudioElement>(document.getElementById('hack') as HTMLAudioElement);
 
+  window.addEventListener("hashchange", ()=>{
+    const hash = window.location.hash
+    const aid = hash === "" ? 0 : parseInt(hash.split("#")[1])
+    setAssetId(isNaN(aid)?0:aid);
+  })
+
+  React.useEffect(() => { setConnected(wallet.isConnected()) }, [wallet])
   React.useEffect(() => {
-    setConnected(wallet.isConnected())
-  }, [wallet])
-
-
-  const hash = window.location.hash
-  React.useEffect(() => {
-    const aid = hash === "" ? 0 : parseInt(hash.split("#")[1]);
-    if (aid === 0 || isNaN(aid)) return;
-
-    setAssetId(aid);
-    countRemaining(aid).then((cnt: number) => {
+    if (asset_id === 0) return;
+    countRemaining(asset_id).then((cnt: number) => {
       setRemaining(cnt)
     })
-  }, [loading, asset_id, hash])
+  }, [loading, asset_id])
 
 
 
   // If no asset id in path, just dump links
-  if (asset_id === 0 || isNaN(asset_id)) {
+  if (asset_id === 0) {
     const links = []
     for (const aidx of config.assets) {
       links.push(<a key={aidx} href={'#' + aidx.toString()}>{aidx}</a>)
@@ -45,19 +45,14 @@ function App() {
   }
 
   async function triggerDrop(asset_id: number) {
-    if (!wallet.isConnected()) {
-      alert("Not connected to wallet!")
-      return
-    }
-
     audio_ref.current?.play()
-
     setLoading(true)
+
     const txns = await getAirdropTxns(asset_id, wallet.getDefaultAccount())
     const signed = await wallet.signTxn(txns)
     await sendWait(signed.map((stxn) => { return stxn.blob }))
+    
     setLoading(false)
-
     audio_ref.current?.pause()
   }
 
@@ -102,8 +97,10 @@ function PromptAppNav(props: PromptAppNavProps) {
     <Dialog {...props} >
       <div className={Classes.DIALOG_BODY}>
         <div className='container'>
-          <p>Open the Pera Wallet to approve the transaction and come back</p>
-          <MobileView >
+          <div className='content'>
+            <p>Open the Pera Wallet to approve the transaction then come back</p>
+          </div>
+          <MobileView>
             <AnchorButton
               style={{ borderRadius: '8px', margin: '20px 0px -30px' }}
               text='Take me there'
