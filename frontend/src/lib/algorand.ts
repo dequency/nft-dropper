@@ -2,7 +2,6 @@ import algosdk from 'algosdk'
 import ABIdef from "./abi.json"
 import Conf from './config.json'
 
-
 interface configuration {
     appId: number
     assets: number[]
@@ -17,6 +16,7 @@ interface configuration {
 
 export const config = Conf as configuration
 
+const client = new algosdk.Algodv2(config.algod.token, config.algod.host, config.algod.port)
 const iface = new algosdk.ABIInterface({...ABIdef})
 
 // Utility function to return an ABIMethod by its name
@@ -26,8 +26,6 @@ function getMethodByName(name: string): algosdk.ABIMethod  {
         throw Error("Method undefined: "+name)
     return m
 }
-
-const client = new algosdk.Algodv2(config.algod.token, config.algod.host, config.algod.port)
 
 export async function countRemaining(asset_id: number): Promise<number> {
     const app_addr = algosdk.getApplicationAddress(config.appId)

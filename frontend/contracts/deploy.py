@@ -12,12 +12,11 @@ KMD_TOKEN = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 KMD_WALLET_NAME = "unencrypted-default-wallet"
 KMD_WALLET_PASSWORD = ""
 
-#ALGOD_ADDRESS = "http://localhost:4001"
-#ALGOD_TOKEN = "a"*64
+# ALGOD_ADDRESS = "http://localhost:4001"
+# ALGOD_TOKEN = "a"*64
 
 ALGOD_ADDRESS = "https://testnet-api.algonode.cloud"
 ALGOD_TOKEN = ""
-
 
 
 with open("abi.json") as f:
@@ -51,13 +50,18 @@ def deploy():
     atc = AtomicTransactionComposer()
     for n in range(5):
         name = "testing_{}".format(n)
-        atc.add_transaction(TransactionWithSigner(
-            txn=AssetCreateTxn(addr, sp, 10000, 0, False, manager=addr, asset_name=name)
-        ))
+        atc.add_transaction(
+            TransactionWithSigner(
+                txn=AssetCreateTxn(
+                    addr, sp, 10000, 0, False, manager=addr, asset_name=name
+                )
+            )
+        )
     result = atc.execute(client, 2)
-    assets = [client.pending_transaction_info(txid)['asset-index'] for txid in result.tx_ids]
+    assets = [
+        client.pending_transaction_info(txid)["asset-index"] for txid in result.tx_ids
+    ]
     print("Created assets: {}".format(assets))
-
 
     optin = get_method("optin")
     atc = AtomicTransactionComposer()
@@ -77,17 +81,17 @@ def deploy():
     atc.execute(client, 2)
     print("Transferred")
 
-    #optin = get_method("drop")
-    #atc = AtomicTransactionComposer()
-    #for asset in assets:
+    # optin = get_method("drop")
+    # atc = AtomicTransactionComposer()
+    # for asset in assets:
     #    atc.add_transaction(
     #        TransactionWithSigner(
     #            txn=AssetTransferTxn(raddr, sp, raddr, 0, asset), signer=rsigner
     #        )
     #    )
     #    atc.add_method_call(app_id, optin, raddr, sp, rsigner, [asset])
-    #atc.execute(client, 4)
-    #print("dropped")
+    # atc.execute(client, 4)
+    # print("dropped")
 
 
 def create_nft(client: algod.AlgodClient, addr: str, pk: str, name: str) -> int:

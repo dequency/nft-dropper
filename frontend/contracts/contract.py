@@ -8,6 +8,9 @@ drop_selector = MethodSignature("drop(asset)void")
 def drop_asset():
     asset_id = Txn.assets[Btoi(Txn.application_args[1])]
     return Seq(
+        bal := AssetHolding.balance(Txn.sender(), asset_id),
+        # Make sure they dont have any of this asset yet
+        Assert(And(bal.hasValue(), bal.value() == Int(0))),
         InnerTxnBuilder.Begin(),
         InnerTxnBuilder.SetFields(
             {
@@ -72,10 +75,6 @@ def get_approval_src():
 
 def get_clear_src():
     return compileTeal(Approve(), mode=Mode.Application, version=6)
-
-
-def deploy_app():
-    pass
 
 
 if __name__ == "__main__":
