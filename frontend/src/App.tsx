@@ -4,8 +4,8 @@ import WalletSession from "./lib/wallet_session"
 import { AnchorButton, Dialog, Card, Button, Elevation, Classes } from "@blueprintjs/core"
 import { MobileView, isIOS } from 'react-device-detect'
 
-
 function App() {
+
   const [loading, setLoading] = React.useState(false)
   const [wallet, setWallet] = React.useState(new WalletSession(config.algod.network))
   const [connected, setConnected] = React.useState(false)
@@ -15,10 +15,10 @@ function App() {
   // This is the hack that makes iOS not kill our websocket with WalletConnect
   const audio_ref = React.useRef<HTMLAudioElement>(document.getElementById('hack') as HTMLAudioElement);
 
-  window.addEventListener("hashchange", ()=>{
+  window.addEventListener("hashchange", () => {
     const hash = window.location.hash
     const aid = hash === "" ? 0 : parseInt(hash.split("#")[1])
-    setAssetId(isNaN(aid)?0:aid);
+    setAssetId(isNaN(aid) ? 0 : aid);
   })
 
   React.useEffect(() => { setConnected(wallet.isConnected()) }, [wallet])
@@ -30,13 +30,12 @@ function App() {
   }, [loading, asset_id])
 
 
-
   // If no asset id in path, just dump links
   if (asset_id === 0) {
-    const links = []
-    for (const aidx of config.assets) {
-      links.push(<a key={aidx} href={'#' + aidx.toString()}>{aidx}</a>)
-    }
+    const links = config.assets.map((aidx)=>{
+        return <a key={aidx} href={'#' + aidx.toString()}>{aidx}</a>
+    })
+
     return (
       <div className='container'>
         {links}
@@ -51,11 +50,10 @@ function App() {
     const txns = await getAirdropTxns(asset_id, wallet.getDefaultAccount())
     const signed = await wallet.signTxn(txns)
     await sendWait(signed.map((stxn) => { return stxn.blob }))
-    
+
     setLoading(false)
     audio_ref.current?.pause()
   }
-
 
   async function connect() {
     audio_ref.current?.play()

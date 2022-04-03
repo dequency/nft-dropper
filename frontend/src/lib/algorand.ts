@@ -1,24 +1,21 @@
 import algosdk from 'algosdk'
 import ABIdef from "./abi.json"
+import Conf from './config.json'
 
 
-export const config = {
-    appId: 81677804,
-    assets: [81677963, 81677921, 81677898, 81677864, 81677845],
+interface configuration {
+    appId: number
+    assets: number[]
     algod: {
-        network:"TestNet",
-        host: "https://testnet-api.algonode.cloud",
-        token: "",
-        port: "" 
+        network: string
+        host: string
+        token: string
+        port: string 
     }
-    //algod: {
-    //    network:"sandnet-v1",
-    //    host: 'http://localhost',
-    //    token: "a".repeat(64),
-    //    port: 4001
-    //}
 }
 
+
+export const config = Conf as configuration
 
 const iface = new algosdk.ABIInterface({...ABIdef})
 
@@ -45,9 +42,12 @@ export async function sendWait(stxns: Uint8Array[]): Promise<any> {
 }
 
 export async function getAirdropTxns(asset_id: number, sender: string): Promise<algosdk.Transaction[]> {
+    // Empty signer, just a placeholder
     const signer = algosdk.makeBasicAccountTransactionSigner({} as algosdk.Account)
+    // Build transaction group
     const sp = await client.getTransactionParams().do()
     const atc = new algosdk.AtomicTransactionComposer()
+    // Opt into asset
     atc.addTransaction({
         txn: algosdk.makeAssetTransferTxnWithSuggestedParamsFromObject({
             assetIndex: asset_id,
@@ -58,6 +58,7 @@ export async function getAirdropTxns(asset_id: number, sender: string): Promise<
         }),
         signer: signer
     })
+    // Method call to drop the asset
     atc.addMethodCall({
         appID: config.appId, 
         method: getMethodByName("drop"), 
@@ -66,5 +67,6 @@ export async function getAirdropTxns(asset_id: number, sender: string): Promise<
         methodArgs:[asset_id],
         signer: signer 
     })
+    // Dump transaction array
     return atc.buildGroup().map((tws)=>{ return tws.txn})
 }
