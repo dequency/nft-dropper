@@ -77,7 +77,11 @@ function App() {
     mimeType={nft.metadata.mimeType()}
   />
 
-  const asset_name = nft=== undefined? asset_id.toString():nft.name()
+  let asset_name = nft=== undefined? asset_id.toString():nft.name()
+  if(asset_name === ""){
+    asset_name = "tbd asset name"
+  }
+
 
   const content = connected ? (
     <Card elevation={Elevation.TWO}>
@@ -86,7 +90,7 @@ function App() {
         {display}
       </div>
       <div className='action'>
-        <h3>{remaining} Left</h3>
+        <h3 style={{paddingRight:'10px'}}>{remaining} Left</h3>
         <Button
           intent='success'
           onClick={() => { triggerDrop(asset_id) }}
