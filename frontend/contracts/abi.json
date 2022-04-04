@@ -1,14 +1,16 @@
 {
-    "name":"",
-    "description":"",
+    "name":"nft-dropper",
+    "description":"Simple abi to support dropping an asset to any caller",
     "methods":[
         {
             "name":"drop",
+            "description":"Method call to ask for a drop sent to the app caller.",
             "args":[{"type":"asset", "name":"asset"}],
             "returns":{"type":"void"}
         },
         {
             "name":"optin",
+            "description":"Ask the application to opt into the asset we intend to drop. Should be called by application creator.",
             "args":[{"type":"asset", "name":"asset"}],
             "returns":{"type":"void"}
         }

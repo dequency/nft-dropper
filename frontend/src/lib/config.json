@@ -1,6 +1,7 @@
 {
     "appId": 81677804,
     "assets": [81677963, 81677921, 81677898, 81677864, 81677845],
+    "ipfsGateway":"https://ipfs.io/ipfs/",
     "algod": {
         "network":"TestNet",
         "host": "https://testnet-api.algonode.cloud",

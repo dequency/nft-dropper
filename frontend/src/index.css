@@ -8,3 +8,11 @@
   display: flex;
   justify-content: space-around;
 }
+
+.action {
+  display: flex;
+  justify-content: right;
+}
+.action h3 {
+  margin: 10px;
+}

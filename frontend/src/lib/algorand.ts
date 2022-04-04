@@ -5,6 +5,7 @@ import Conf from './config.json'
 interface configuration {
     appId: number
     assets: number[]
+    ipfsGateway: string
     algod: {
         network: string
         host: string
@@ -25,6 +26,10 @@ function getMethodByName(name: string): algosdk.ABIMethod  {
     if(m === undefined)
         throw Error("Method undefined: "+name)
     return m
+}
+
+export async function getToken(asset_id: number): Promise<any>{
+    return await client.getAssetByID(asset_id).do()
 }
 
 export async function countRemaining(asset_id: number): Promise<number> {

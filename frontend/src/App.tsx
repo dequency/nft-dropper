@@ -3,6 +3,8 @@ import { config, getAirdropTxns, sendWait, countRemaining } from './lib/algorand
 import WalletSession from "./lib/wallet_session"
 import { AnchorButton, Dialog, Card, Button, Elevation, Classes } from "@blueprintjs/core"
 import { MobileView, isIOS } from 'react-device-detect'
+import {MediaDisplay} from './MediaDisplay'
+import { NFT } from './lib/nft';
 
 function App() {
 
@@ -11,6 +13,7 @@ function App() {
   const [connected, setConnected] = React.useState(false)
   const [remaining, setRemaining] = React.useState(0)
   const [asset_id, setAssetId] = React.useState<number>(0)
+  const [nft, setNFT] = React.useState<NFT|undefined>(undefined)
 
   // This is the hack that makes iOS not kill our websocket with WalletConnect
   const audio_ref = React.useRef<HTMLAudioElement>(document.getElementById('hack') as HTMLAudioElement);
@@ -24,9 +27,15 @@ function App() {
   React.useEffect(() => { setConnected(wallet.isConnected()) }, [wallet])
   React.useEffect(() => {
     if (asset_id === 0) return;
+
+    NFT.fromAssetId(asset_id).then((nft)=>{
+      setNFT(nft)
+    })
+
     countRemaining(asset_id).then((cnt: number) => {
       setRemaining(cnt)
     })
+
   }, [loading, asset_id])
 
 
@@ -63,16 +72,30 @@ function App() {
     })
   }
 
+  const display = nft === undefined ? <></>: <MediaDisplay
+    mediaSrc={nft.mediaURL()}
+    mimeType={nft.metadata.mimeType()}
+  />
+
+  const asset_name = nft=== undefined? asset_id.toString():nft.name()
+
   const content = connected ? (
     <Card elevation={Elevation.TWO}>
-      <h3>{remaining} Left</h3>
-      <Button
-        intent='success'
-        onClick={() => { triggerDrop(asset_id) }}
-        key={'asset-' + asset_id.toString()}
-        text={'Drop ' + asset_id.toString()}
-        loading={loading}
-      />
+      <h2>{asset_name}</h2>
+      <div className='content'>
+        {display}
+      </div>
+      <div className='action'>
+        <h3>{remaining} Left</h3>
+        <Button
+          intent='success'
+          onClick={() => { triggerDrop(asset_id) }}
+          key={'asset-' + asset_name}
+          text={'Gib me ' + asset_name}
+          loading={loading}
+        />
+
+      </div>
     </Card>
   ) : <Button onClick={connect}>Connect</Button>
 
