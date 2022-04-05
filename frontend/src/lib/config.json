@@ -1,17 +1,11 @@
 {
-    "appId": 81677804,
-    "assets": [81677963, 81677921, 81677898, 81677864, 81677845],
+    "appId": 82165109,
+    "assets": [82165192, 82165193, 82165194, 82165195, 82165196],
     "ipfsGateway":"https://ipfs.io/ipfs/",
     "algod": {
         "network":"TestNet",
         "host": "https://testnet-api.algonode.cloud",
         "token": "",
         "port": ""
-    },
-    "algod_testing": {
-        "network":"sandnet-v1",
-        "host": "http://localhost",
-        "token": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-        "port": "4001"
     }
 }

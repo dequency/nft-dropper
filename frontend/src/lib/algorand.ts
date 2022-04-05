@@ -1,6 +1,7 @@
 import algosdk from 'algosdk'
 import ABIdef from "./abi.json"
 import Conf from './config.json'
+//import Conf from './sb_config.json'
 
 interface configuration {
     appId: number

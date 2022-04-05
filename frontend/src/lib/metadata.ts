@@ -18,6 +18,7 @@ export type Localization = {
 
 // Just takes the first chunk of the mimetype (the type)
 export function getTypeFromMimeType(filetype: string): string {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [type, _] = filetype.split("/")
     return type
 }

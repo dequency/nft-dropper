@@ -9,6 +9,7 @@ import { NFT } from './lib/nft';
 function App() {
 
   const [loading, setLoading] = React.useState(false)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [wallet, setWallet] = React.useState(new WalletSession(config.algod.network))
   const [connected, setConnected] = React.useState(false)
   const [remaining, setRemaining] = React.useState(0)

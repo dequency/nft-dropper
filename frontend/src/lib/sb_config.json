@@ -1,0 +1,11 @@
+{
+    "appId": 1,
+    "assets": [3, 4, 5, 6, 7],
+    "ipfsGateway":"https://ipfs.io/ipfs/",
+    "algod": {
+        "network":"sandnet-v1",
+        "host": "http://localhost",
+        "token": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "port": "4001"
+    }
+}

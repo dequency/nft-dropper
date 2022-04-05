@@ -1,3 +1,4 @@
+from base64 import b64decode
 from typing import Tuple
 from algosdk.v2client.algod import AlgodClient
 from algosdk import algod
@@ -6,17 +7,25 @@ from algosdk.atomic_transaction_composer import *
 from algosdk.abi import *
 from algosdk.kmd import KMDClient
 from contract import get_approval_src, get_clear_src
+import base64
 
 KMD_ADDRESS = "http://localhost:4002"
 KMD_TOKEN = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 KMD_WALLET_NAME = "unencrypted-default-wallet"
 KMD_WALLET_PASSWORD = ""
 
-# ALGOD_ADDRESS = "http://localhost:4001"
-# ALGOD_TOKEN = "a"*64
 
-ALGOD_ADDRESS = "https://testnet-api.algonode.cloud"
-ALGOD_TOKEN = ""
+network = "testnet"
+
+ALGOD_ADDRESS = "http://localhost:4001"
+ALGOD_TOKEN = "a" * 64
+
+if network == "testnet":
+    ALGOD_ADDRESS = "https://testnet-api.algonode.cloud"
+    ALGOD_TOKEN = ""
+elif network == "mainnet":
+    ALGOD_ADDRESS = "https://mainnet-api.algonode.cloud"
+    ALGOD_TOKEN = ""
 
 
 with open("abi.json") as f:
@@ -53,8 +62,11 @@ def deploy():
         atc.add_transaction(
             TransactionWithSigner(
                 txn=AssetCreateTxn(
-                    addr, sp, 10000, 0, False, manager=addr, asset_name=name
-                )
+                    addr, sp, 10000, 0, False, manager=addr, asset_name=name,
+                    metadata_hash=base64.b64decode("K0CeLPiNiz56ESYgXYG8DqJB72JNoLjRabYpwuZ/DRc="),
+                    url="ipfs://bafkreiblicpcz6enrm7huejgeboydpaouja66ysnuc4nc2nwfhbom7ync4#arc3"
+                ),
+                signer=signer,
             )
         )
     result = atc.execute(client, 2)
@@ -81,17 +93,18 @@ def deploy():
     atc.execute(client, 2)
     print("Transferred")
 
-    # optin = get_method("drop")
-    # atc = AtomicTransactionComposer()
-    # for asset in assets:
+    #print("Dropping")
+    #optin = get_method("drop")
+    #atc = AtomicTransactionComposer()
+    #for asset in assets:
     #    atc.add_transaction(
     #        TransactionWithSigner(
     #            txn=AssetTransferTxn(raddr, sp, raddr, 0, asset), signer=rsigner
     #        )
     #    )
     #    atc.add_method_call(app_id, optin, raddr, sp, rsigner, [asset])
-    # atc.execute(client, 4)
-    # print("dropped")
+    #atc.execute(client, 4)
+    #print("Dropped")
 
 
 def create_nft(client: algod.AlgodClient, addr: str, pk: str, name: str) -> int:
