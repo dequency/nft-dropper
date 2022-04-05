@@ -25,8 +25,18 @@ function App() {
     setAssetId(isNaN(aid) ? 0 : aid);
   })
 
+
+  const hash = window.location.hash
+  const aid = hash === "" ? 0 : parseInt(hash.split("#")[1])
+
+
   React.useEffect(() => { setConnected(wallet.isConnected()) }, [wallet])
   React.useEffect(() => {
+
+    if(aid !== 0 && ! isNaN(aid)){
+      setAssetId(aid);
+    }
+
     if (asset_id === 0) return;
 
     NFT.fromAssetId(asset_id).then((nft)=>{
