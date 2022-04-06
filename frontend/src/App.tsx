@@ -24,6 +24,7 @@ function App() {
   const [connected, setConnected] = React.useState(false)
   const [remaining, setRemaining] = React.useState(0)
   const [asset_id, setAssetId] = React.useState<number>(0)
+  const [success, setSuccess] = React.useState(false); //TODO:: @harsh hardcode to true
   const [nft, setNFT] = React.useState<NFT|undefined>(undefined)
 
   // This is the hack that makes iOS not kill our websocket with WalletConnect
@@ -79,10 +80,14 @@ function App() {
 
     const txns = await getAirdropTxns(asset_id, wallet.getDefaultAccount())
     const signed = await wallet.signTxn(txns)
-    await sendWait(signed.map((stxn) => { return stxn.blob }))
+    const result = await sendWait(signed.map((stxn) => { return stxn.blob }))
 
     setLoading(false)
     audio_ref.current?.pause()
+
+    if(result['confirmed-round']>0){
+      setSuccess(true)
+    }
   }
 
   async function connect() {
@@ -120,6 +125,7 @@ function App() {
           intent='success'
           onClick={() => { triggerDrop(asset_id) }}
           loading={loading}
+          disabled={success}
         ><img src={claimbtn} /></Button>
       </div>
       <div style={{bottom: 0, left: 0, right: 0, position: 'absolute', padding: '2rem'}}>
@@ -147,8 +153,24 @@ function App() {
       </div>
       <audio hidden id='hack' ref={audio_ref} src='https://github.com/anars/blank-audio/blob/master/30-seconds-of-silence.mp3?raw=true' ></audio>
       <PromptAppNav isOpen={loading} />
+      <SuccessfulDrop isOpen={success} />
     </div>
   );
+}
+
+interface SuccessfulDropProps {
+  isOpen: boolean
+}
+function SuccessfulDrop(props: SuccessfulDropProps) {
+  return (
+    <Dialog {...props} >
+      <div className={Classes.DIALOG_BODY}>
+        <div className='container'>
+            <p>Success!</p>
+        </div>
+      </div>
+    </Dialog>
+  )
 }
 
 interface PromptAppNavProps {
