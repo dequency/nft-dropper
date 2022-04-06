@@ -6,6 +6,16 @@ import { MobileView, isIOS } from 'react-device-detect'
 import {MediaDisplay} from './MediaDisplay'
 import { NFT } from './lib/nft';
 
+import wave from './images/wave.png';
+import presents from './images/presents.png';
+import logo from './images/logo.png';
+import c240 from './images/c240.png';
+import connectbtn from './images/connectbtn.png';
+import claimbtn from './images/claimbtn.png';
+import logo_white from './images/logo_white.png';
+import artbox from './images/artbox.png';
+import line from './images/line.png';
+
 function App() {
 
   const [loading, setLoading] = React.useState(false)
@@ -83,10 +93,10 @@ function App() {
     })
   }
 
-  const display = nft === undefined ? <></>: <MediaDisplay
-    mediaSrc={nft.mediaURL()}
-    mimeType={nft.metadata.mimeType()}
-  />
+  // const display = nft === undefined ? <></>: <MediaDisplay
+  //   mediaSrc={nft.mediaURL()}
+  //   mimeType={nft.metadata.mimeType()}
+  // />
 
   let asset_name = nft=== undefined? asset_id.toString():nft.name()
   if(asset_name === ""){
@@ -95,24 +105,40 @@ function App() {
 
 
   const content = connected ? (
-    <Card elevation={Elevation.TWO}>
-      <h2>{asset_name}</h2>
-      <div className='content'>
-        {display}
-      </div>
-      <div className='action'>
-        <h3 style={{paddingRight:'10px'}}>{remaining} Left</h3>
-        <Button
+    <div style={{padding: '1rem 2rem', position: 'relative'}}>
+      <img style={{padding: '0'}} src={logo} />
+      <img style={{padding: '2rem 0 0.25rem 0'}} src={presents} />
+      <div className='content' style={{display: 'block'}}>
+        {/* {display} */}
+        <img src={artbox} />
+        <img style={{paddingTop: '0.5rem'}} src={c240} />
+        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem 0 0.5rem 0'}}>
+          <img style={{width: '50%', paddingRight: '1rem'}} src={line} />
+          <p style={{color: 'white', margin: 0}}>{remaining} PIECES REMAINING</p>
+        </div>
+        <Button className='clear_button' style={{padding: '1rem 0'}}
           intent='success'
           onClick={() => { triggerDrop(asset_id) }}
-          key={'asset-' + asset_name}
-          text={'Gib me ' + asset_name}
           loading={loading}
-        />
-
+        ><img src={claimbtn} /></Button>
       </div>
-    </Card>
-  ) : <Button onClick={connect}>Connect</Button>
+      <div style={{bottom: 0, left: 0, right: 0, position: 'absolute', padding: '2rem'}}>
+        <img style={{bottom: '0'}} src={wave} />
+      </div>
+    </div>
+  ) : (
+    <div style={{padding: '1rem 2rem', position: 'relative'}}>
+
+      <img style={{padding: '0'}} src={logo} />
+      <img style={{padding: '2rem 0 0.5rem 0'}} src={presents} />
+      <img style={{margin: '0 auto'}} src={c240} />
+      <img style={{padding: '3rem'}} src={logo_white} />
+      <Button className='clear_button' style={{paddingTop: '1rem'}} onClick={connect}><img src={connectbtn} /></Button>
+      <div style={{bottom: 0, left: 0, right: 0, position: 'absolute', padding: '2rem'}}>
+        <img style={{bottom: '0'}} src={wave} />
+      </div>
+    </div>
+  )
 
   return (
     <div className="container">
