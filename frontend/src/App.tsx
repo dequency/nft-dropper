@@ -15,6 +15,12 @@ import claimbtn from './images/claimbtn.png';
 import logo_white from './images/logo_white.png';
 import artbox from './images/artbox.png';
 import line from './images/line.png';
+import successimg from './images/success.png';
+import welcome from './images/welcome.png';
+import announcements from './images/announcements.png';
+import twitter from './images/twitter.png';
+import www from './images/www.png';
+import discord from './images/discord.png';
 
 function App() {
 
@@ -24,7 +30,7 @@ function App() {
   const [connected, setConnected] = React.useState(false)
   const [remaining, setRemaining] = React.useState(0)
   const [asset_id, setAssetId] = React.useState<number>(0)
-  const [success, setSuccess] = React.useState(false); //TODO:: @harsh hardcode to true
+  const [success, setSuccess] = React.useState(true); //TODO:: @harsh hardcode to true
   const [nft, setNFT] = React.useState<NFT|undefined>(undefined)
 
   // This is the hack that makes iOS not kill our websocket with WalletConnect
@@ -109,7 +115,7 @@ function App() {
   }
 
 
-  const content = connected ? (
+  const content = connected ? (!success ? (
     <div style={{padding: '1rem 2rem', position: 'relative'}}>
       <img style={{padding: '0'}} src={logo} />
       <img style={{padding: '2rem 0 0.25rem 0'}} src={presents} />
@@ -134,6 +140,28 @@ function App() {
     </div>
   ) : (
     <div style={{padding: '1rem 2rem', position: 'relative'}}>
+      <img style={{padding: '0'}} src={logo} />
+      <img style={{padding: '2rem 0 0.25rem 0'}} src={presents} />
+      <div className='content' style={{display: 'unset'}}>
+        <img style={{paddingTop: '0.5rem'}} src={c240} />
+        <img style={{padding: '3rem 2rem'}} src={successimg} />
+      </div>
+      <div style={{margin: '0 -2rem'}}>
+
+        <img style={{margin: '0 -2rem', width: '100%'}} src={welcome} />
+      </div>
+      <img style={{padding: '2rem', paddingTop: '3rem', marginLeft: '-2rem'}} src={announcements} />
+      <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-evenly'}}>
+        <img style={{width: '50px', height: 'auto'}} src={twitter} />
+        <img style={{width: '50px', height: 'auto'}} src={discord} />
+        <img style={{width: '50px', height: 'auto'}} src={www} />
+      </div>
+      <div style={{bottom: 0, left: 0, right: 0, position: 'absolute', padding: '2rem'}}>
+        <img style={{bottom: '0'}} src={wave} />
+      </div>
+    </div>
+  )) : (
+    <div style={{padding: '1rem 2rem', position: 'relative'}}>
 
       <img style={{padding: '0'}} src={logo} />
       <img style={{padding: '2rem 0 0.5rem 0'}} src={presents} />
@@ -153,7 +181,6 @@ function App() {
       </div>
       <audio hidden id='hack' ref={audio_ref} src='https://github.com/anars/blank-audio/blob/master/30-seconds-of-silence.mp3?raw=true' ></audio>
       <PromptAppNav isOpen={loading} />
-      <SuccessfulDrop isOpen={success} />
     </div>
   );
 }
