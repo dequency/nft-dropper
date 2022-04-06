@@ -41,8 +41,7 @@ export async function countRemaining(asset_id: number): Promise<number> {
 
 export async function sendWait(stxns: Uint8Array[]): Promise<any> {
     const {txId} = await client.sendRawTransaction(stxns).do()
-    const result = await algosdk.waitForConfirmation(client, txId, 2)
-    return result
+    return await algosdk.waitForConfirmation(client, txId, 2)
 }
 
 export async function getAirdropTxns(asset_id: number, sender: string): Promise<algosdk.Transaction[]> {
