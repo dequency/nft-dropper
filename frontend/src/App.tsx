@@ -30,7 +30,7 @@ function App() {
   const [connected, setConnected] = React.useState(false)
   const [remaining, setRemaining] = React.useState(0)
   const [asset_id, setAssetId] = React.useState<number>(0)
-  const [success, setSuccess] = React.useState(true); //TODO:: @harsh hardcode to true
+  const [success, setSuccess] = React.useState(false); //TODO:: @harsh hardcode to true
   const [nft, setNFT] = React.useState<NFT|undefined>(undefined)
 
   // This is the hack that makes iOS not kill our websocket with WalletConnect
