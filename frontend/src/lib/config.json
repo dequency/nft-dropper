@@ -1,6 +1,6 @@
 {
-    "appId": 82165109,
-    "assets": [82165192, 82165193, 82165194, 82165195, 82165196],
+    "appId": 82677804,
+    "assets": [82674810, 82674811, 82676669],
     "ipfsGateway":"https://ipfs.io/ipfs/",
     "algod": {
         "network":"TestNet",

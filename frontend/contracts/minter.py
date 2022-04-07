@@ -7,8 +7,6 @@ import json
 
 network = "testnet"
 
-ALGOD_ADDRESS = "http://localhost:4001"
-ALGOD_TOKEN = "a" * 64
 
 if network == "testnet":
     ALGOD_ADDRESS = "https://testnet-api.algonode.cloud"
@@ -16,6 +14,9 @@ if network == "testnet":
 elif network == "mainnet":
     ALGOD_ADDRESS = "https://mainnet-api.algonode.cloud"
     ALGOD_TOKEN = ""
+else:
+    ALGOD_ADDRESS = "http://localhost:4001"
+    ALGOD_TOKEN = "a" * 64
 
 client = algod.AlgodClient(ALGOD_TOKEN, ALGOD_ADDRESS)
 
@@ -31,28 +32,28 @@ configs = [
         "name":"C-240-ft-Nothin_Fancy",
         "desc":"C-240 is an electronic sound artwork developed by digital art pioneer, Yucef Merhi, that translates sounds into colorful geometric patterns. This piece is a generative visual response to the song, Nothin Fancy, made by Boiish."
     },
-    {
-        "file": "Jonny From Space - Full Glass ft. C-240 by Yucef Merhi",
-        "img": "bafybeiennx3b6ft7lvricepsbc4rq5rg7vqpoyha442neu3um5cfanyz5i",
-        "integ":"NhSPyAyJSe0B4t+hFVUlEr0bwIOo4AKxQJfbU3MDfQ8=",
-        "animation": "bafybeidt7qyretlhbkvhvjekzz4mwdrbmj354dl5l6nohrnzpeqxwbvtti",
-        "md":"bafkreihrwdhvstfzxi3zqrxyl6ijgz7uo3sozb6gdcu2jiezzpswu3tosy",
-        "sounds":"Jonny From Space",
-        "unit":"C-240-FG",
-        "name":"C-240-ft-Full_Glass",
-        "desc":"C-240 is an electronic sound artwork developed by digital art pioneer, Yucef Merhi, that translates sounds into colorful geometric patterns. This piece is a generative visual response to the song, Full Glass, made by Jonny from Space."
-    },
-    {
-        "file": "Nick-Leon - A Bailar ft. C-240 by Yucef Merhi",
-        "img": "bafybeib6wu5myb7gh64my7vzffbpg6m4ueo53x7vrvkr65sl724uxpvuym",
-        "integ":"/rDsfJnJKfREvnwEycLteGzcCLGz5VcWIjrMwaQBhM4=",
-        "animation": "bafybeibzxuya53egqt54lcepd4arlrddrbvvi7oiew462v4cfap36glqlm",
-        "md":"bafkreigrtpoebspuugixc24zonvqmqy2n72msktdn7tuyapd5zo7fzer4i",
-        "sounds":"Nick León",
-        "unit":"C-240-AB",
-        "name":"C-240-ft-A_Bailar",
-        "desc":"C-240 is an electronic sound artwork developed by digital art pioneer, Yucef Merhi, that translates sounds into colorful geometric patterns. This piece is a generative visual response to the song,  A Bailar, made by Nick Leon."
-    }
+    #{
+    #    "file": "Jonny From Space - Full Glass ft. C-240 by Yucef Merhi",
+    #    "img": "bafybeiennx3b6ft7lvricepsbc4rq5rg7vqpoyha442neu3um5cfanyz5i",
+    #    "integ":"NhSPyAyJSe0B4t+hFVUlEr0bwIOo4AKxQJfbU3MDfQ8=",
+    #    "animation": "bafybeidt7qyretlhbkvhvjekzz4mwdrbmj354dl5l6nohrnzpeqxwbvtti",
+    #    "md":"bafkreihrwdhvstfzxi3zqrxyl6ijgz7uo3sozb6gdcu2jiezzpswu3tosy",
+    #    "sounds":"Jonny From Space",
+    #    "unit":"C-240-FG",
+    #    "name":"C-240-ft-Full_Glass",
+    #    "desc":"C-240 is an electronic sound artwork developed by digital art pioneer, Yucef Merhi, that translates sounds into colorful geometric patterns. This piece is a generative visual response to the song, Full Glass, made by Jonny from Space."
+    #},
+    #{
+    #    "file": "Nick-Leon - A Bailar ft. C-240 by Yucef Merhi",
+    #    "img": "bafybeib6wu5myb7gh64my7vzffbpg6m4ueo53x7vrvkr65sl724uxpvuym",
+    #    "integ":"/rDsfJnJKfREvnwEycLteGzcCLGz5VcWIjrMwaQBhM4=",
+    #    "animation": "bafybeibzxuya53egqt54lcepd4arlrddrbvvi7oiew462v4cfap36glqlm",
+    #    "md":"bafkreigrtpoebspuugixc24zonvqmqy2n72msktdn7tuyapd5zo7fzer4i",
+    #    "sounds":"Nick León",
+    #    "unit":"C-240-AB",
+    #    "name":"C-240-ft-A_Bailar",
+    #    "desc":"C-240 is an electronic sound artwork developed by digital art pioneer, Yucef Merhi, that translates sounds into colorful geometric patterns. This piece is a generative visual response to the song,  A Bailar, made by Nick Leon."
+    #}
 ]
 
 
@@ -71,7 +72,7 @@ def mint(minter, cfg):
         "animation_url":"ipfs://{}".format(cfg['animation']),
         "animation_url_mimetype":"video/mp4",
         "properties": {
-            "visuals": "C-240 by Yucef Merhi" ,
+            "visuals": "C-240 by Yucef Merhi",
             "sounds":cfg["sounds"]
         },
     }

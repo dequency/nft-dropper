@@ -53,8 +53,6 @@ def deploy():
 
     signer = AccountTransactionSigner(sk)
 
-    raddr, rsk = accts[1]
-    rsigner = AccountTransactionSigner(rsk)
 
     app_id, app_addr = create_app(
         client, addr, sk, get_approval=get_approval_src, get_clear=get_clear_src
@@ -63,24 +61,7 @@ def deploy():
 
     sp = client.suggested_params()
 
-    atc = AtomicTransactionComposer()
-    for n in range(5):
-        name = "testing_{}".format(n)
-        atc.add_transaction(
-            TransactionWithSigner(
-                txn=AssetCreateTxn(
-                    addr, sp, 10000, 0, False, manager=addr, asset_name=name,
-                    metadata_hash=base64.b64decode("K0CeLPiNiz56ESYgXYG8DqJB72JNoLjRabYpwuZ/DRc="),
-                    url="ipfs://bafkreiblicpcz6enrm7huejgeboydpaouja66ysnuc4nc2nwfhbom7ync4#arc3"
-                ),
-                signer=signer,
-            )
-        )
-    result = atc.execute(client, 2)
-    assets = [
-        client.pending_transaction_info(txid)["asset-index"] for txid in result.tx_ids
-    ]
-    print("Created assets: {}".format(assets))
+    assets = [82674810, 82674811, 82676669]
 
     optin = get_method("optin")
     atc = AtomicTransactionComposer()
@@ -93,7 +74,7 @@ def deploy():
     for asset in assets:
         atc.add_transaction(
             TransactionWithSigner(
-                txn=AssetTransferTxn(addr, sp, app_addr, 500, asset),
+                txn=AssetTransferTxn(addr, sp, app_addr, 30, asset),
                 signer=signer,
             )
         )
@@ -101,6 +82,8 @@ def deploy():
     print("Transferred")
 
     #print("Dropping")
+    #raddr, rsk = accts[1]
+    #rsigner = AccountTransactionSigner(rsk)
     #optin = get_method("drop")
     #atc = AtomicTransactionComposer()
     #for asset in assets:
