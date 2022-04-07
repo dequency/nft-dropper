@@ -30,7 +30,7 @@ function App() {
   const [connected, setConnected] = React.useState(false)
   const [remaining, setRemaining] = React.useState(0)
   const [asset_id, setAssetId] = React.useState<number>(0)
-  const [success, setSuccess] = React.useState(true); //TODO:: @harsh hardcode to true
+  const [success, setSuccess] = React.useState(false); //TODO:: @harsh hardcode to true
   const [nft, setNFT] = React.useState<NFT|undefined>(undefined)
 
   // This is the hack that makes iOS not kill our websocket with WalletConnect
@@ -134,8 +134,8 @@ function App() {
           disabled={success}
         ><img src={claimbtn} /></Button>
       </div>
-      <div style={{bottom: 0, left: 0, right: 0, position: 'absolute', padding: '2rem'}}>
-        <img style={{bottom: '0'}} src={wave} />
+      <div style={{padding: '2rem', paddingTop: '3rem'}}>
+        <img src={wave} />
       </div>
     </div>
   ) : (
@@ -156,8 +156,8 @@ function App() {
         <img style={{width: '50px', height: 'auto'}} src={discord} />
         <img style={{width: '50px', height: 'auto'}} src={www} />
       </div>
-      <div style={{bottom: 0, left: 0, right: 0, position: 'absolute', padding: '2rem'}}>
-        <img style={{bottom: '0'}} src={wave} />
+      <div style={{padding: '2rem', paddingTop: '3rem'}}>
+        <img src={wave} />
       </div>
     </div>
   )) : (
@@ -168,8 +168,8 @@ function App() {
       <img style={{margin: '0 auto'}} src={c240} />
       <img style={{padding: '3rem'}} src={logo_white} />
       <Button className='clear_button' style={{paddingTop: '1rem'}} onClick={connect}><img src={connectbtn} /></Button>
-      <div style={{bottom: 0, left: 0, right: 0, position: 'absolute', padding: '2rem'}}>
-        <img style={{bottom: '0'}} src={wave} />
+      <div style={{padding: '2rem'}}>
+        <img src={wave} />
       </div>
     </div>
   )
