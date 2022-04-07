@@ -15,7 +15,7 @@ KMD_WALLET_NAME = "unencrypted-default-wallet"
 KMD_WALLET_PASSWORD = ""
 
 
-network = "testnet"
+network = "mainnet"
 
 ALGOD_ADDRESS = "http://localhost:4001"
 ALGOD_TOKEN = "a" * 64
@@ -27,6 +27,8 @@ elif network == "mainnet":
     ALGOD_ADDRESS = "https://mainnet-api.algonode.cloud"
     ALGOD_TOKEN = ""
 
+
+testnet_client = AlgodClient(ALGOD_TOKEN, "https://testnet-api.algonode.cloud")
 
 with open("abi.json") as f:
     interface = Interface.from_json(f.read())
@@ -55,13 +57,13 @@ def deploy():
 
 
     app_id, app_addr = create_app(
-        client, addr, sk, get_approval=get_approval_src, get_clear=get_clear_src
+        testnet_client, client, addr, sk, get_approval=get_approval_src, get_clear=get_clear_src
     )
     print("Created App id: {} ({})".format(app_id, app_addr))
 
     sp = client.suggested_params()
 
-    assets = [82674810, 82674811, 82676669]
+    assets = [694816505, 694816506, 694816507]
 
     optin = get_method("optin")
     atc = AtomicTransactionComposer()
@@ -74,7 +76,7 @@ def deploy():
     for asset in assets:
         atc.add_transaction(
             TransactionWithSigner(
-                txn=AssetTransferTxn(addr, sp, app_addr, 30, asset),
+                txn=AssetTransferTxn(addr, sp, app_addr, 80, asset),
                 signer=signer,
             )
         )
@@ -106,17 +108,17 @@ def create_nft(client: algod.AlgodClient, addr: str, pk: str, name: str) -> int:
 
 
 def create_app(
-    client: algod.AlgodClient, addr: str, pk: str, get_approval, get_clear
+    compile_client: algod.AlgodClient, client: algod.AlgodClient, addr: str, pk: str, get_approval, get_clear
 ) -> Tuple[int, str]:
     # Get suggested params from network
     sp = client.suggested_params()
 
     # Read in approval teal source && compile
-    app_result = client.compile(get_approval())
+    app_result = compile_client.compile(get_approval())
     app_bytes = base64.b64decode(app_result["result"])
 
     # Read in clear teal source && compile
-    clear_result = client.compile(get_clear())
+    clear_result = compile_client.compile(get_clear())
     clear_bytes = base64.b64decode(clear_result["result"])
 
     # We dont need no stinkin storage
