@@ -110,7 +110,7 @@ function App() {
     asset_name = "C240"
   }
 
-  let img_preview = nft === undefined? artbox:nft.metadata.mediaURL(true)
+  let img_preview = nft === undefined? artbox:nft.mediaURL(true)
 
   const content = connected ? (!success ? (
     <div style={{padding: '1rem 2rem', position: 'relative'}}>
