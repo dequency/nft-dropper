@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/alt-text */
 import React from 'react';
 import { config, getAirdropTxns, sendWait, countRemaining } from './lib/algorand'
 import WalletSession from "./lib/wallet_session"
@@ -104,24 +105,19 @@ function App() {
     })
   }
 
-  // const display = nft === undefined ? <></>: <MediaDisplay
-  //   mediaSrc={nft.mediaURL()}
-  //   mimeType={nft.metadata.mimeType()}
-  // />
-
-  let asset_name = nft=== undefined? asset_id.toString():nft.name()
+  let asset_name = nft === undefined? asset_id.toString():nft.name()
   if(asset_name === ""){
-    asset_name = "tbd asset name"
+    asset_name = "C240"
   }
 
+  let img_preview = nft === undefined? artbox:nft.metadata.mediaURL(true)
 
   const content = connected ? (!success ? (
     <div style={{padding: '1rem 2rem', position: 'relative'}}>
       <img style={{padding: '0'}} src={logo} />
       <img style={{padding: '2rem 0 0.25rem 0'}} src={presents} />
       <div className='content' style={{display: 'block'}}>
-        {/* {display} */}
-        <img src={artbox} />
+        <img alt='preview' src={img_preview} />
         <img style={{paddingTop: '0.5rem'}} src={c240} />
         <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem 0 0.5rem 0'}}>
           <img style={{width: '50%', paddingRight: '1rem'}} src={line} />
@@ -152,9 +148,9 @@ function App() {
       </div>
       <img style={{padding: '2rem', paddingTop: '3rem', marginLeft: '-2rem'}} src={announcements} />
       <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-evenly'}}>
-        <img style={{width: '50px', height: 'auto'}} src={twitter} />
-        <img style={{width: '50px', height: 'auto'}} src={discord} />
-        <img style={{width: '50px', height: 'auto'}} src={www} />
+        <a href='https://twitter.com/Dequency_io'><img style={{width: '50px', height: 'auto'}} src={twitter} /></a>
+        <a href='https://discord.com/invite/wPT7WKC8RD'><img style={{width: '50px', height: 'auto'}} src={discord} /></a>
+        <a href='https://dequency.io/'><img style={{width: '50px', height: 'auto'}} src={www} /></a>
       </div>
       <div style={{padding: '2rem', paddingTop: '3rem'}}>
         <img src={wave} />
