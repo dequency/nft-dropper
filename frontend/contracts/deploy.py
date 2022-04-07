@@ -43,7 +43,14 @@ def deploy():
     client = AlgodClient(ALGOD_TOKEN, ALGOD_ADDRESS)
 
     accts = get_accounts()
-    addr, sk = accts[0]
+
+    accts = get_accounts()
+    addr = "MIAMI2UTQBFMGLX6PPTC456Q62NCPW5Q7SPVCXNMLKHKFNJWP5CBERUWZQ"
+
+    for (acct, key) in accts:
+        if acct == addr:
+            sk = key
+
     signer = AccountTransactionSigner(sk)
 
     raddr, rsk = accts[1]
