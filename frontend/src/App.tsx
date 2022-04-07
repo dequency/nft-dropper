@@ -2,9 +2,8 @@
 import React from 'react';
 import { config, getAirdropTxns, sendWait, countRemaining } from './lib/algorand'
 import WalletSession from "./lib/wallet_session"
-import { AnchorButton, Dialog, Card, Button, Elevation, Classes } from "@blueprintjs/core"
+import { AnchorButton, Dialog, Button, Classes } from "@blueprintjs/core"
 import { MobileView, isIOS } from 'react-device-detect'
-import {MediaDisplay} from './MediaDisplay'
 import { NFT } from './lib/nft';
 
 import wave from './images/wave.png';
@@ -48,6 +47,7 @@ function App() {
   const aid = hash === "" ? 0 : parseInt(hash.split("#")[1])
 
 
+
   React.useEffect(() => { setConnected(wallet.isConnected()) }, [wallet])
   React.useEffect(() => {
 
@@ -67,6 +67,10 @@ function App() {
 
   }, [loading, asset_id])
 
+  if(aid === 1){
+    wallet.disconnect()
+    return (<p>Ok thx</p>)
+  }
 
   // If no asset id in path, just dump links
   if (asset_id === 0) {
@@ -175,25 +179,10 @@ function App() {
       <div className='content'>
         {content}
       </div>
-      <audio hidden id='hack' ref={audio_ref} src='https://github.com/anars/blank-audio/blob/master/30-seconds-of-silence.mp3?raw=true' ></audio>
+      <audio hidden id='hack' ref={audio_ref} src='https://github.com/anars/blank-audio/blob/master/2-minutes-and-30-seconds-of-silence.mp3?raw=true' ></audio>
       <PromptAppNav isOpen={loading} />
     </div>
   );
-}
-
-interface SuccessfulDropProps {
-  isOpen: boolean
-}
-function SuccessfulDrop(props: SuccessfulDropProps) {
-  return (
-    <Dialog {...props} >
-      <div className={Classes.DIALOG_BODY}>
-        <div className='container'>
-            <p>Success!</p>
-        </div>
-      </div>
-    </Dialog>
-  )
 }
 
 interface PromptAppNavProps {
@@ -208,16 +197,18 @@ function PromptAppNav(props: PromptAppNavProps) {
             <p>Open the Pera Wallet to approve the transaction then come back</p>
           </div>
           <MobileView>
-            <AnchorButton
-              style={{ borderRadius: '8px', margin: '20px 0px -30px' }}
-              text='Take me there'
-              href={isIOS ? "algorand-wc://wc?uri=wc:00e46b69-d0cc-4b3e-b6a2-cee442f97188@1" : "wc:00e46b69-d0cc-4b3e-b6a2-cee442f97188@1"}
-              intent="success"
-              large={true}
-              minimal={true}
-              outlined={true}
-              rightIcon="double-chevron-right"
-            />
+            <div className='content'>
+              <AnchorButton
+                style={{ borderRadius: '8px', margin: '20px 0px -30px' }}
+                text='Take me there'
+                href={isIOS ? "algorand-wc://wc?uri=wc:00e46b69-d0cc-4b3e-b6a2-cee442f97188@1" : "wc:00e46b69-d0cc-4b3e-b6a2-cee442f97188@1"}
+                intent="success"
+                large={true}
+                minimal={true}
+                outlined={true}
+                rightIcon="double-chevron-right"
+              />
+            </div>
           </MobileView>
         </div>
       </div>
