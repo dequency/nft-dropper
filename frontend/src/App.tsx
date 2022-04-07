@@ -139,7 +139,7 @@ function App() {
         <img src={wave} />
       </div>
       <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-        <h2 style={{marginRight: '1rem'}}>Powered By</h2>
+        <h2 style={{marginRight: '1rem', color: 'white'}}>Powered By</h2>
         <img style={{width: 'auto', height: '2.5rem'}} src={algorand} />
       </div>
     </div>
@@ -165,7 +165,7 @@ function App() {
         <img src={wave} />
       </div>
       <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-        <h2 style={{marginRight: '1rem'}}>Powered By</h2>
+        <h2 style={{marginRight: '1rem', color: 'white'}}>Powered By</h2>
         <img style={{width: 'auto', height: '2.5rem'}} src={algorand} />
       </div>
     </div>
@@ -181,7 +181,7 @@ function App() {
         <img src={wave} />
       </div>
       <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-        <h2 style={{marginRight: '1rem'}}>Powered By</h2>
+        <h2 style={{marginRight: '1rem', color: 'white'}}>Powered By</h2>
         <img style={{width: 'auto', height: '2.5rem'}} src={algorand} />
       </div>
     </div>
