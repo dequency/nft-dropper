@@ -21,6 +21,7 @@ import announcements from './images/announcements.png';
 import twitter from './images/twitter.png';
 import www from './images/www.png';
 import discord from './images/discord.png';
+import algorand from './images/algorand.png';
 
 function App() {
 
@@ -137,6 +138,10 @@ function App() {
       <div style={{padding: '2rem', paddingTop: '3rem'}}>
         <img src={wave} />
       </div>
+      <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+        <h2 style={{marginRight: '1rem'}}>Powered By</h2>
+        <img style={{width: 'auto', height: '2.5rem'}} src={algorand} />
+      </div>
     </div>
   ) : (
     <div style={{padding: '1rem 2rem', position: 'relative'}}>
@@ -152,12 +157,16 @@ function App() {
       </div>
       <img style={{padding: '2rem', paddingTop: '3rem', marginLeft: '-2rem'}} src={announcements} />
       <div style={{display: 'flex', alignItems: 'center', justifyContent: 'space-evenly'}}>
-        <a href='https://twitter.com/Dequency_io'><img style={{width: '50px', height: 'auto'}} src={twitter} /></a>
-        <a href='https://discord.com/invite/wPT7WKC8RD'><img style={{width: '50px', height: 'auto'}} src={discord} /></a>
-        <a href='https://dequency.io/'><img style={{width: '50px', height: 'auto'}} src={www} /></a>
+        <a href="https://twitter.com/Dequency_io" rel='noreferrer' target="_blank"><img style={{width: '50px', height: 'auto'}} src={twitter} /></a>
+        <a href="https://discord.com/invite/Syz4Hb2sH2" rel='noreferrer' target="_blank"><img style={{width: '50px', height: 'auto'}} src={discord} /></a>
+        <a href="https://dequency.io/" rel='noreferrer' target="_blank"><img style={{width: '50px', height: 'auto'}} src={www} /></a>
       </div>
       <div style={{padding: '2rem', paddingTop: '3rem'}}>
         <img src={wave} />
+      </div>
+      <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+        <h2 style={{marginRight: '1rem'}}>Powered By</h2>
+        <img style={{width: 'auto', height: '2.5rem'}} src={algorand} />
       </div>
     </div>
   )) : (
@@ -170,6 +179,10 @@ function App() {
       <Button className='clear_button' style={{paddingTop: '1rem'}} onClick={connect}><img src={connectbtn} /></Button>
       <div style={{padding: '2rem'}}>
         <img src={wave} />
+      </div>
+      <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+        <h2 style={{marginRight: '1rem'}}>Powered By</h2>
+        <img style={{width: 'auto', height: '2.5rem'}} src={algorand} />
       </div>
     </div>
   )
